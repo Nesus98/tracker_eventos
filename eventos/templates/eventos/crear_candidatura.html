@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Candidatura</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800 p-4 md:p-8 flex justify-center items-start min-h-screen pt-10">
+
+    <div class="bg-white rounded-xl shadow-md border border-gray-200 p-6 w-full max-w-2xl">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-extrabold text-indigo-600">Nueva Candidatura 📝</h2>
+            <a href="{% url 'lista_eventos' %}" class="text-sm font-medium text-gray-500 hover:text-gray-800 transition">← Volver</a>
+        </div>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                {% for field in form %}
+                    <div class="flex flex-col {% if field.name == 'notas' %} md:col-span-2 {% endif %}">
+                        <label class="text-sm font-bold text-gray-700 mb-1" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">
+                Guardar Candidatura
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>
