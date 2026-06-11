@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+@source "../../eventos/templates/**/*.html";
+@source "../../eventos/**/*.py";
+@source "../../config/**/*.py";

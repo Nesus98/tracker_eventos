@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Festivales</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 text-gray-800 p-8">
+
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-4xl font-extrabold text-indigo-600 mb-8 tracking-tight">
+            Mi Tracker de Eventos 🎫
+        </h1>
+
+        <div class="grid gap-6">
+            {% for evento in eventos %}
+            <div class="bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">{{ evento.nombre }}</h2>
+                        <p class="text-gray-500 font-medium mt-1">📍 {{ evento.lugar }}</p>
+                    </div>
+                    <span class="bg-indigo-100 text-indigo-800 text-sm font-semibold px-3 py-1 rounded-full">
+                        {{ evento.fecha_inicio }}
+                    </span>
+                    {% if evento.candidaturas.all %}
+                    <div class="mt-5 pt-4 border-t border-gray-100">
+                        <h3 class="text-sm font-bold text-gray-700 mb-3">Candidaturas enviadas:</h3>
+                        <div class="flex flex-col gap-2">
+
+                            {% for aplicacion in evento.candidaturas.all %}
+                            <div
+                                class="flex justify-between items-center text-sm bg-gray-50 p-2 rounded-md border border-gray-100">
+                                <span class="font-medium text-gray-800">{{ aplicacion.puesto }}</span>
+
+                                <span class="text-xs font-bold px-2 py-1 rounded-full 
+                        {% if aplicacion.estado == 'ACEPTADA' %}bg-green-100 text-green-700
+                        {% elif aplicacion.estado == 'RECHAZADA' %}bg-red-100 text-red-700
+                        {% elif aplicacion.estado == 'ENTREVISTA' %}bg-blue-100 text-blue-700
+                        {% else %}bg-gray-200 text-gray-700{% endif %}">
+                                    {{ aplicacion.estado }}
+                                </span>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="bg-yellow-50 text-yellow-800 p-4 rounded-lg text-center">
+                Aún no has agregado ningún festival.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+
+</html>
