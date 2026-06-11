@@ -15,7 +15,32 @@
         <h1 class="text-4xl font-extrabold text-indigo-600 mb-8 tracking-tight">
             Mi Tracker de Eventos 🎫
         </h1>
+        <div class="bg-white rounded-xl shadow-md border border-gray-200 p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Añadir Nueva Candidatura 📝</h2>
 
+            <form method="POST" action="">
+
+                {% csrf_token %}
+
+                <div class="space-y-4 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        {% for field in form %}
+                            <div class="flex flex-col {% if field.name == 'notas' %} md:col-span-2 {% endif %}">
+                                <label class="text-sm font-bold text-gray-700" for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                </label>
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-indigo-700 transition-colors w-full md:w-auto">
+                    Guardar Candidatura
+                </button>
+            </form>
+        </div>
         <div class="grid gap-6">
             {% for evento in eventos %}
             <div class="bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow">
