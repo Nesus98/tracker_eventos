@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tracker_db',
+        'USER': 'jesus_db',
+        'PASSWORD': 'jesus', # ¡Ojo! Pon aquí la misma contraseña que creaste en el paso de SQL
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
