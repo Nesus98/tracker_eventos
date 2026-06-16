@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Evento, Candidatura
 from .forms import CandidaturaForm, EventoForm # <-- Importamos ambos formularios
+from django.contrib.auth.decorators import login_required
 
 # 1. La vista principal ahora está limpia, solo lee la base de datos.
+@login_required
 def lista_eventos(request):
     festivales = Evento.objects.all()
     return render(request, 'eventos/lista_eventos.html', {'eventos': festivales})
 
 # 2. Nueva vista: Crear Evento
+@login_required
 def crear_evento(request):
     if request.method == 'POST':
         form = EventoForm(request.POST)
@@ -20,6 +23,7 @@ def crear_evento(request):
     return render(request, 'eventos/crear_evento.html', {'form': form})
 
 # 3. Nueva vista: Crear Candidatura
+@login_required
 def crear_candidatura(request):
     if request.method == 'POST':
         form = CandidaturaForm(request.POST)
@@ -34,6 +38,7 @@ def crear_candidatura(request):
 # (Mantén tu función eliminar_candidatura y las demás que ya tenías abajo)
 
 
+@login_required
 def eliminar_candidatura(request, pk):
     candidatura = get_object_or_404(Candidatura, pk=pk)
 
@@ -48,6 +53,7 @@ def eliminar_candidatura(request, pk):
     })
 
 # Añade esta función al final de eventos/views.py
+@login_required
 def editar_evento(request, pk):
     # 1. Buscamos el festival específico usando el 'pk' (ID) que viene de la URL
     evento = get_object_or_404(Evento, id=pk)
@@ -68,6 +74,7 @@ def editar_evento(request, pk):
     # Reutilizamos la misma plantilla HTML de crear_evento, ya que tiene los mismos campos
     return render(request, 'eventos/crear_evento.html', {'form': form})
     # Añade esta función al final de eventos/views.py
+@login_required
 def eliminar_evento(request, pk):
     # Buscamos el festival exacto usando su ID (pk)
     evento = get_object_or_404(Evento, id=pk)
@@ -79,6 +86,7 @@ def eliminar_evento(request, pk):
     return redirect('lista_eventos')
 
 # Añade esta función al final de eventos/views.py
+@login_required
 def editar_candidatura(request, pk):
     # 1. Buscamos la candidatura específica por su ID (pk)
     candidatura = get_object_or_404(Candidatura, id=pk)

@@ -1,27 +1,21 @@
-"""
-URL configuration for config project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include # <-- Súper importante importar 'include'
 from eventos import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('eventos.urls')),
-
-    # Nuevas rutas:
+    path('', views.lista_eventos, name='lista_eventos'),
+    
+    # Esta línea activa automáticamente rutas como /accounts/login/ y /accounts/logout/
+    path('accounts/', include('django.contrib.auth.urls')),
+    
+    # Tus rutas de añadir
     path('añadir_evento/', views.crear_evento, name='crear_evento'),
     path('añadir_candidatura/', views.crear_candidatura, name='crear_candidatura'),
+    
+    # Tus rutas de editar y eliminar
+    path('eventos/<int:pk>/editar/', views.editar_evento, name='editar_evento'),
+    path('eventos/<int:pk>/eliminar/', views.eliminar_evento, name='eliminar_evento'),
+    path('candidaturas/<int:pk>/editar/', views.editar_candidatura, name='editar_candidatura'),
+    path('eliminar/<int:candidatura_id>/', views.eliminar_candidatura, name='eliminar_candidatura'),
 ]
